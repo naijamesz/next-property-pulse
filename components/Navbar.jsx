@@ -9,10 +9,13 @@ import { FaGoogle } from 'react-icons/fa';
 
 export default function Navbar() {
   // ประกาศตัวแปร state สำหรับเก็บค่าสถานะของเมนูมือถือ มีค่าเริ่มต้นเป็น false
+  // Declare a state variable to store the menu status from mobile menu on mobile display, with an initial value of false
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // ประกาศตัวแปร state สำหรับเก็บค่าสถานะของเมนูโปรไฟล์ มีค่าเริ่มต้นเป็น false
+  // Declare a state variable to store the menu mobile status, with an initial value of false
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   // ประกาศตัวแปร state สำหรับเก็บค่าสถานะการเข้าสู่ระบบ มีค่าเริ่มต้นเป็น false
+  // Declare a state variable to store the login status, with an initial value of false
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
 
