@@ -1,13 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/images/logo-white.png';
 import profileDefault from '@/assets/images/profile.png';
 import { FaGoogle } from 'react-icons/fa';
+import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 export default function Navbar() {
+  const { data: session } = useSession();
+  const profileImage = session?.user?.image;
   // ประกาศตัวแปร state สำหรับเก็บค่าสถานะของเมนูมือถือ มีค่าเริ่มต้นเป็น false
   // Declare a state variable to store the menu status from mobile menu on mobile display, with an initial value of false
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -16,8 +19,17 @@ export default function Navbar() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   // ประกาศตัวแปร state สำหรับเก็บค่าสถานะการเข้าสู่ระบบ มีค่าเริ่มต้นเป็น false
   // Declare a state variable to store the login status, with an initial value of false
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [providers, setProviders] = useState(null);
+
   const pathname = usePathname();
+
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const response = await getProviders();
+      setProviders(response);
+    };
+    setAuthProviders();
+  }, []);
 
   return (
     <nav className='bg-blue-700 border-b border-blue-900'>
@@ -70,7 +82,7 @@ export default function Navbar() {
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}>
                   Properties
                 </Link>
-                {isLoggedIn && (
+                {session && (
                   <Link
                     href='/properties/add'
                     className={`${
@@ -84,19 +96,25 @@ export default function Navbar() {
           </div>
 
           {/* <!-- Right Side Menu (Logged Out) --> */}
-          {!isLoggedIn && (
+          {!session && (
             <div className='hidden md:block md:ml-6'>
               <div className='flex items-center'>
-                <button className='flex items-center px-3 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-900 hover:text-white'>
-                  <FaGoogle className='mr-2 text-white' />
-                  <span>Login or Register</span>
-                </button>
+                {providers &&
+                  Object.values(providers).map((provider, index) => (
+                    <button
+                      onClick={() => signIn(provider.id)}
+                      key={index}
+                      className='flex items-center px-3 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-900 hover:text-white'>
+                      <FaGoogle className='mr-2 text-white' />
+                      <span>Login or Register</span>
+                    </button>
+                  ))}
               </div>
             </div>
           )}
 
           {/* <!-- Right Side Menu (Logged In) --> */}
-          {isLoggedIn && (
+          {session && (
             <div className='absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0'>
               <Link href='/messages' className='relative group'>
                 <button
@@ -134,7 +152,14 @@ export default function Navbar() {
                     onClick={() => setIsProfileMenuOpen(prev => !prev)}>
                     <span className='absolute -inset-1.5'></span>
                     <span className='sr-only'>Open user menu</span>
-                    <Image className='w-8 h-8 rounded-full' src={profileDefault} alt='' />
+                    <Image
+                      className='w-8 h-8 rounded-full'
+                      src={profileImage || profileDefault}
+                      alt=''
+                      width={40}
+                      height={40}
+                      sizes='100%'
+                    />
                   </button>
                 </div>
 
@@ -152,7 +177,10 @@ export default function Navbar() {
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       tabIndex='-1'
-                      id='user-menu-item-0'>
+                      id='user-menu-item-0'
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                      }}>
                       Your Profile
                     </Link>
                     <Link
@@ -160,14 +188,21 @@ export default function Navbar() {
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       tabIndex='-1'
-                      id='user-menu-item-2'>
+                      id='user-menu-item-2'
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                      }}>
                       Saved Properties
                     </Link>
                     <button
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       tabIndex='-1'
-                      id='user-menu-item-2'>
+                      id='user-menu-item-2'
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                        signOut();
+                      }}>
                       Sign Out
                     </button>
                   </div>
@@ -196,7 +231,7 @@ export default function Navbar() {
               } text-white block rounded-md px-3 py-2 text-base font-medium`}>
               Properties
             </Link>
-            {isLoggedIn && (
+            {session && (
               <Link
                 href='/properties/add'
                 className={`${
@@ -206,11 +241,16 @@ export default function Navbar() {
               </Link>
             )}
 
-            {!isLoggedIn && (
-              <button className='flex items-center px-3 py-2 my-4 text-white bg-gray-700 rounded-md hover:bg-gray-900 hover:text-white'>
-                <span>Login or Register</span>
-              </button>
-            )}
+            {!session &&
+              providers &&
+              Object.values(providers).map((provider, index) => (
+                <button
+                  onClick={() => signIn(provider.id)}
+                  key={index}
+                  className='flex items-center px-3 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-900 hover:text-white'>
+                  <span>Login or Register</span>
+                </button>
+              ))}
           </div>
         </div>
       )}
