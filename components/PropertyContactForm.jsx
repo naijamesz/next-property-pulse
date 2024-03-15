@@ -25,7 +25,7 @@ export default function PropertyContactForm({ property }) {
     };
 
     try {
-      const res = await fetch('/api/messages', {
+      const response = await fetch('/api/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ export default function PropertyContactForm({ property }) {
       {!session ? (
         <p>You must be logged in to send a message</p>
       ) : wasSubmitted ? (
-        <p className='mb-4 text-green-500'>Your message has been sent successfully</p>
+        <p className='mb-4 text-blue-500'>Your message has been sent successfully</p>
       ) : (
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>

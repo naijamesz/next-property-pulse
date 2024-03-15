@@ -10,10 +10,10 @@ export default function Messages() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await fetch('/api/messages');
+        const response = await fetch('/api/messages');
 
-        if (res.status === 200) {
-          const data = await res.json();
+        if (response.status === 200) {
+          const data = await response.json();
           setMessages(data);
         }
       } catch (error) {

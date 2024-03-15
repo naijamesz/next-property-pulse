@@ -12,12 +12,12 @@ export default function Message({ message }) {
 
   const handleReadClick = async () => {
     try {
-      const res = await fetch(`/api/messages/${message._id}`, {
+      const response = await fetch(`/api/messages/${message._id}`, {
         method: 'PUT'
       });
 
-      if (res.status === 200) {
-        const { read } = await res.json();
+      if (response.status === 200) {
+        const { read } = await response.json();
         setIsRead(read);
         setUnreadCount(prevCount => (read ? prevCount - 1 : prevCount + 1));
         if (read) {
@@ -34,11 +34,11 @@ export default function Message({ message }) {
 
   const handleDeleteClick = async () => {
     try {
-      const res = await fetch(`/api/messages/${message._id}`, {
+      const response = await fetch(`/api/messages/${message._id}`, {
         method: 'DELETE'
       });
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         setIsDeleted(true);
         setUnreadCount(prevCount => prevCount - 1);
         toast.success('Message Deleted');

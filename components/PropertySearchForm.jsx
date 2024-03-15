@@ -40,7 +40,7 @@ export default function PropertySearchForm() {
         </label>
         <select
           id='property-type'
-          className='w-full px-4 py-3 text-gray-800 bg-white rounded-lg focus:outline-none focus:ring focus:ring-blue-500'
+          className='w-full px-4 py-1 text-gray-800 bg-white rounded-lg focus:outline-none focus:ring focus:ring-blue-500'
           value={propertyType}
           onChange={e => setPropertyType(e.target.value)}>
           <option value='All'>All</option>

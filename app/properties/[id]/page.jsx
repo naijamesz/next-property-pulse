@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { FaArrowLeft, FaBookmark } from 'react-icons/fa';
 import { FaPaperPlane, FaShare } from 'react-icons/fa6';
 import { fetchProperty } from '@/utils/requests';
+import BookmarkButton from '@/components/BookmarkButton';
 import ShareButtons from '@/components/ShareButtons';
 import PropertyHeaderImage from '@/components/PropertyHeaderImage';
 import PropertyContactForm from '@/components/PropertyContactForm';
@@ -58,7 +59,7 @@ export default function PropertyPage() {
               <div className='grid w-full grid-cols-1 gap-6 md:grid-cols-70/30'>
                 <PropertyDetails property={property} />
                 <aside className='space-y-4'>
-                  {/* <BookmarkButton property={property} /> */}
+                  <BookmarkButton property={property} />
                   <ShareButtons property={property} />
                   <PropertyContactForm property={property} />
                 </aside>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useGlobalContext } from '@/context/GlobalContext';
 
-const UnreadMessageCount = ({ session }) => {
+export default function UnreadMessageCount({ session }) {
   const { unreadCount, setUnreadCount } = useGlobalContext();
 
   useEffect(() => {
@@ -10,10 +10,10 @@ const UnreadMessageCount = ({ session }) => {
 
     const fetchUnreadMessages = async () => {
       try {
-        const res = await fetch('/api/messages/unread-count');
+        const response = await fetch('/api/messages/unread-count');
 
-        if (res.status === 200) {
-          const data = await res.json();
+        if (response.status === 200) {
+          const data = await response.json();
           setUnreadCount(data);
         }
       } catch (error) {
@@ -31,5 +31,4 @@ const UnreadMessageCount = ({ session }) => {
       </span>
     )
   );
-};
-export default UnreadMessageCount;
+}

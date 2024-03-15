@@ -25,10 +25,16 @@ export default function Navbar() {
 
   useEffect(() => {
     const setAuthProviders = async () => {
-      const response = await getProviders();
-      setProviders(response);
+      const res = await getProviders();
+      setProviders(res);
     };
+
     setAuthProviders();
+
+    // NOTE: close mobile menu if the viewport size is changed
+    window.addEventListener('resize', () => {
+      setIsMobileMenuOpen(false);
+    });
   }, []);
 
   return (

@@ -1,10 +1,10 @@
 import { FaCheck, FaBed, FaBath, FaRulerCombined, FaTimes } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
-// import PropertyMap from '@/components/PropertyMap';
+import PropertyMap from '@/components/PropertyMap';
 export default function PropertyDetails({ property }) {
   return (
     <main>
-      <div className='p-6 text-center bg-white rounded-lg shadow-md md:text-left'>
+      <div className='p-6 text-center bg-white rounded-xl shadow-md md:text-left'>
         <div className='mb-4 text-gray-500'>{property.type}</div>
         <h1 className='mb-4 text-3xl font-bold'>{property.name}</h1>
         <div className='flex justify-center mb-4 text-gray-500 align-middle md:justify-start'>
@@ -52,7 +52,7 @@ export default function PropertyDetails({ property }) {
         </div>
       </div>
 
-      <div className='p-6 mt-6 bg-white rounded-lg shadow-md'>
+      <div className='p-6 mt-6 bg-white rounded-xl shadow-md'>
         <h3 className='mb-6 text-lg font-bold'>Description & Details</h3>
         <div className='flex justify-center gap-4 mb-4 text-xl text-blue-500 space-x-9'>
           <p>
@@ -75,19 +75,19 @@ export default function PropertyDetails({ property }) {
         </p> */}
       </div>
 
-      <div className='p-6 mt-6 bg-white rounded-lg shadow-md'>
+      <div className='p-6 mt-6 bg-white rounded-xl shadow-md'>
         <h3 className='mb-6 text-lg font-bold'>Amenities</h3>
 
         <ul className='grid grid-cols-1 list-none md:grid-cols-2 lg:grid-cols-3'>
           {property.amenities.map((amenity, index) => (
             <li key={index}>
-              <FaCheck className='inline-block mr-2 text-green-600' /> {amenity}
+              <FaCheck className='inline-block mr-2 text-blue-600' /> {amenity}
             </li>
           ))}
         </ul>
       </div>
-      <div className='p-6 mt-6 bg-white rounded-lg shadow-md'>
-        <div id='map'>{/* <PropertyMap property={property} /> */}</div>
+      <div className='p-6 mt-6 bg-white rounded-xl shadow-md'>
+        <PropertyMap property={property} />
       </div>
     </main>
   );

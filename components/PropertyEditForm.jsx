@@ -124,7 +124,7 @@ export default function PropertyEditForm() {
     try {
       const formData = new FormData(e.target);
 
-      const res = await fetch(`/api/properties/${id}`, {
+      const response = await fetch(`/api/properties/${id}`, {
         method: 'PUT',
         body: formData
       });

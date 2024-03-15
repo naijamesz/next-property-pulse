@@ -44,7 +44,7 @@ export default function FeaturedPropertyCard({ property }) {
           </p>
         </div>
 
-        <div className='flex justify-center gap-4 mb-4 text-sm text-green-900'>
+        <div className='flex justify-center gap-4 mb-4 text-sm text-blue-900'>
           {property.rates.nightly && (
             <p>
               <FaMoneyBill className='inline mr-2' /> Nightly

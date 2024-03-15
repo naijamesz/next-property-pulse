@@ -1,16 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { setDefaults, fromAddress } from 'react-geocode';
-import Spinner from './Spinner';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import Map, { Marker } from 'react-map-gl';
 import { setDefaults, fromAddress } from 'react-geocode';
+import Spinner from './Spinner';
 import Image from 'next/image';
 import pin from '@/assets/images/pin.svg';
 
 export default function PropertyMap({ property }) {
-  // set latitude state
   const [lat, setLat] = useState(null);
-  // set longitude state
   const [lng, setLng] = useState(null);
   const [viewport, setViewport] = useState({
     latitude: 0,
@@ -27,6 +25,7 @@ export default function PropertyMap({ property }) {
     language: 'en',
     region: 'us'
   });
+
   useEffect(() => {
     const fetchCoords = async () => {
       try {
@@ -34,9 +33,9 @@ export default function PropertyMap({ property }) {
           `${property.location.street} ${property.location.city} ${property.location.state} ${property.location.zipcode}`
         );
 
-        // Check for results
+        //  Check for results
         if (response.results.length === 0) {
-          // No results
+          // No results found
           setGeocodeError(true);
           setLoading(false);
           return;
@@ -54,11 +53,12 @@ export default function PropertyMap({ property }) {
 
         setLoading(false);
       } catch (error) {
-        console.error(error);
+        console.log(error);
         setGeocodeError(true);
         setLoading(false);
       }
     };
+
     fetchCoords();
   }, []);
 
@@ -68,11 +68,12 @@ export default function PropertyMap({ property }) {
   if (geocodeError) {
     return <div className='text-xl'>No location data found</div>;
   }
+
   return (
     !loading && (
       <Map
-        mapboxAcresToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-        mabLib={import('mapbox-gl')}
+        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+        mapLib={import('mapbox-gl')}
         initialViewState={{
           longitude: lng,
           latitude: lat,

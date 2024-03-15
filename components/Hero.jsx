@@ -26,7 +26,7 @@ export default function Hero() {
               </label>
               <select
                 id='property-type'
-                className='w-full px-4 py-3 text-gray-800 bg-white rounded-lg focus:outline-none focus:ring focus:ring-blue-500'>
+                className='w-full px-3 py-1 text-gray-800 bg-white rounded-lg focus:outline-none focus:ring focus:ring-blue-500'>
                 <option value='All'>All</option>
                 <option value='Apartment'>Apartment</option>
                 <option value='Studio'>Studio</option>
